@@ -1,0 +1,53 @@
+{
+  "users": [
+    {
+      "_id": "1fasdf",
+      "email": "admin@gmail.com",
+      "username": "admin",
+      "password": "0000",
+      "name": "Supriadi",
+      "role": "admin"
+    },
+    {
+      "_id": "1fa3123sdf",
+      "email": "guru@gmail.com",
+      "username": "guru",
+      "password": "0000",
+      "name": "Supri",
+      "role": "guru"
+    }
+  ],
+  "students": [
+    {
+      "_id": "1",
+      "name": "Andi",
+      "NIS": "12345",
+      "class": "10-A"
+    },
+    {
+      "_id": "2",
+      "name": "Budi",
+      "NIS": "67890",
+      "class": "10-B"
+    },
+    {
+      "_id": "3",
+      "name": "Budi",
+      "NIS": "67890",
+      "class": "10-B"
+    }
+  ],
+  "classes": [
+    {
+      "id": "1771457011400",
+      "name": "11-A",
+      "wali": "Solihah.Spd"
+    },
+    {
+      "id": 1771456894644,
+      "nama": "asd",
+      "wali": "asd"
+    }
+  ],
+  "sessions": []
+}

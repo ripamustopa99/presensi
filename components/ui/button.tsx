@@ -15,10 +15,10 @@ export function Button({
   return (
     <button
       onClick={onClick}
-      className={`flex items-center gap-4 w-full p-4 rounded-2xl transition-all 
+      className={`flex items-center gap-4 w-full p-4 rounded-xl transition-all 
         ${
           isActive
-            ? "bg-indigo-600 text-white shadow-lg shadow-indigo-200"
+            ? "bg-indigo-600 text-white shadow-md shadow-indigo-200"
             : "text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800"
         }`}
     >

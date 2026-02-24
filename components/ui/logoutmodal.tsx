@@ -1,7 +1,11 @@
 "use client";
-import { LogOut, X, AlertTriangle, Trash2 } from "lucide-react";
+import { LogOut, X, AlertTriangle, Trash2, Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { LogoutAction } from "@/lib/actions/auth.actions";
 import { Modal } from "./modal";
+import { useState } from "react";
+import { redirect } from "next/navigation";
+
 interface LogoutModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -9,11 +13,16 @@ interface LogoutModalProps {
 
 export function LogoutModal({ isOpen, onClose }: LogoutModalProps) {
   const router = useRouter();
-  // Di dalam fungsi handleLogout kamu
-  const handleLogout = () => {
-    sessionStorage.removeItem("userSession");
-    localStorage.removeItem("userSession"); // jika pakai localstorage
-    router.replace("/signin");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleLogout = async () => {
+    setIsLoading(true);
+    try {
+      await LogoutAction();
+    } catch (error) {
+      console.error("Logout gagal:", error);
+      setIsLoading(false);
+    }
   };
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Mau Istirahat?">
@@ -32,8 +41,14 @@ export function LogoutModal({ isOpen, onClose }: LogoutModalProps) {
           onClick={handleLogout}
           className="flex items-center justify-center gap-3 w-full p-4 rounded-2xl bg-rose-500 text-white font-black text-sm shadow-lg shadow-rose-200 dark:shadow-none hover:bg-rose-600 transition-all active:scale-95"
         >
-          <Trash2 size={18} />
-          Ya, Logout Sekarang
+          {isLoading ? (
+            <Loader className="animate-spin" size={20} />
+          ) : (
+            <>
+              <Trash2 size={18} />
+              Ya, Logout Sekarang
+            </>
+          )}
         </button>
         <button
           onClick={onClose}

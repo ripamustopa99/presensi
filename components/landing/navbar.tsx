@@ -101,7 +101,7 @@ export default function SmartNavbar({ activeSection, scrollToSection }: any) {
 
             {/* LOGIN BUTTON (Kanan) */}
             <div className="flex items-center gap-3">
-              <Link href="/signin" prefetch={true}>
+              <Link href="/sign" prefetch={true}>
                 <button
                   className={`
         hidden sm:flex cursor-pointer items-center gap-2 px-6 py-2.5 rounded-full font-black text-sm transition-all active:scale-95
@@ -149,7 +149,7 @@ export default function SmartNavbar({ activeSection, scrollToSection }: any) {
                   </button>
                 ))}
                 <hr className="border-slate-100" />
-                <Link href="/signin" prefetch={true}>
+                <Link href="/sign" prefetch={true}>
                   <button className="w-full py-4 bg-emerald-600 text-white font-black rounded-xl">
                     MASUK
                   </button>

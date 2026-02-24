@@ -1,82 +1,84 @@
 {
-  "users": [
+  "classes": [
     {
-      "id": 1771351188490,
-      "role": "guru",
-      "email": "supi",
-      "username": "guru",
-      "password": "1100",
-      "nama": "supi"
+      "id": 1771457011400,
+      "nama": "sas",
+      "wali": "sss"
     },
     {
-      "id": 11,
-      "email": "ad@pondok.id",
-      "username": "admin",
-      "password": "1100",
-      "role": "admin",
-      "nama": "Ust. Danial"
-    },
-    {
-      "id": 12,
-      "email": "ad@pondok.id",
-      "username": "bila00",
-      "password": "1100",
-      "role": "guru",
-      "nama": "Bila00"
+      "id": 1771456894644,
+      "nama": "asd",
+      "wali": "asd"
     }
   ],
-  "sessions": [
+  "users": [
     {
-      "id": 1771349418487,
-      "kelas": "7A",
-      "tanggal": "2026-02-17",
-      "status": "pending",
-      "data_absen": {}
-    },
-    {
-      "id": 1771349092684,
-      "kelas": "8B",
-      "tanggal": "2026-02-17",
-      "status": "selesai",
-      "data_absen": {
-        "S3": {
-          "status": "Hadir"
-        }
-      }
-    },
-    {
-      "id": 1771348851085,
-      "kelas": "8B",
-      "tanggal": "2026-02-20",
-      "status": "pending",
-      "data_absen": {}
-    },
-    {
-      "id": 1771346397517,
+      "_id": "1771457245683",
       "role": "guru",
-      "email": "admin@pondok.id",
-      "username": "supri",
+      "email": "ad@pondok.id",
+      "username": "1010",
       "password": "1100",
-      "nama": null,
-      "kelas": "7A",
-      "tanggal": "2026-02-28"
+      "nama": "asdf"
+    },
+    {
+      "_id": "1771457241124",
+      "role": "admin",
+      "email": "ad@pondok.id",
+      "username": "admin00",
+      "password": "1100",
+      "nama": "asdf"
+    },
+    {
+      "_id": "1771457093959",
+      "role": "guru",
+      "email": "ad@pondok.id",
+      "username": "1010",
+      "password": "1100",
+      "nama": "asdf"
+    },
+    {
+      "_id": "3k4bdmr8y",
+      "name": "ripa",
+      "email": "ripamustopa99@gmail.com",
+      "username": "admin",
+      "password": "0000",
+      "role": "guru"
+    },
+    {
+      "_id": "g39ew6k6l",
+      "name": "ripa",
+      "email": "ripamustopa99@gmail.com",
+      "username": "admin",
+      "password": "0000",
+      "role": "guru"
+    },
+    {
+      "_id": "3razic5ct",
+      "name": "ripa",
+      "email": "ripamustopa99@gmail.com",
+      "username": "admin",
+      "password": "0000",
+      "role": "guru"
     }
   ],
   "data_santri": [
     {
-      "id": 1771349836085,
+      "id": 1771457346999,
       "role": "guru",
-      "nama": "Ahmad Fa",
-      "NIS": "asasdasd",
-      "kelas": "10-A"
-    },
-    {
-      "id": 1771349820434,
-      "role": "guru",
-      "nama": "Ahmad Fa",
-      "NIS": "asasdasd",
-      "kelas": "11-A"
+      "nama": "adsf",
+      "NIS": "adsf",
+      "kelas": "10-B"
     }
   ],
-  "data_kelas": ["Semua", "10-A", "10-B", "11-A", "11-B"]
+  "sessions": [
+    {
+      "id": 1771457356025,
+      "authorId": 1771457245683,
+      "authorName": null,
+      "kelas": "11-B",
+      "tanggal": "2026-02-18",
+      "status": "selesai",
+      "data_absen": {}
+    }
+  ]
 }
