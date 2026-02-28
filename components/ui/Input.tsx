@@ -1,138 +1,3 @@
-// interface FormInputProps {
-//   label: string;
-//   name: string;
-//   defaultValue?: string;
-//   required?: boolean;
-//   placeholder?: string;
-// }
-// // ("use client";
-
-// import { InputHTMLAttributes } from "react";
-import { UseFormRegisterReturn } from "react-hook-form";
-
-// type InputProps = InputHTMLAttributes<HTMLInputElement> & {
-//   error?: string;
-//   label?: string;
-//   name?: string;
-//   defaultValue?: string;
-//   required?: boolean;
-//   placeholder?: string;
-// };
-
-// export default function Input({
-//   label,
-//   name,
-//   defaultValue,
-//   required,
-//   placeholder,
-//   error,
-// }: InputProps) {
-//   return (
-//     <div className="w-full">
-//       <label className="text-xs font-black text-slate-400 uppercase tracking-widest block mb-2">
-//         {label}
-//       </label>
-//       <input
-//         name={name}
-//         defaultValue={defaultValue}
-//         required={required}
-//         placeholder={placeholder}
-//         className={`w-full text-white p-4
-//         bg-slate-800/40 border
-//         border-slate-700/50 rounded-2xl
-//         outline-none focus:ring-4 ring-white/5
-//         transition-all font-bold text-sm
-//         placeholder:text-slate-600
-//         placeholder:uppercase
-//         placeholder:text-[10px]
-//         ${error ? "border-red-500" : ""}`}
-//       />
-
-//       {error && <p className="text-red-500 text-xs mt-2">{error}</p>}
-//     </div>
-//   );
-// }
-
-// export function FormInput({
-//   label,
-//   name,
-//   defaultValue,
-//   required,
-//   placeholder,
-// }: FormInputProps) {
-//   return (
-//     <div className="w-full">
-//       <label className="text-xs font-black text-slate-400 uppercase tracking-widest block mb-2">
-//         {label}
-//       </label>
-//       <input
-//         name={name}
-//         required={required}
-//         defaultValue={defaultValue}
-//         placeholder={placeholder}
-//         className="w-full p-4 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl outline-none focus:ring-2 ring-indigo-500 font-bold transition-all text-slate-800 dark:text-slate-200"
-//       />
-//     </div>
-//   );
-// }
-
-import { ChevronDown } from "lucide-react";
-
-interface SelectInputProps {
-  register?: UseFormRegisterReturn;
-  error?: string;
-  props?: any;
-  label?: string;
-  name?: string;
-  options: string[]; // Opsinya cukup array string biasa
-  defaultValue?: string;
-  required?: boolean;
-}
-
-export function SelectInput({
-  label,
-  name,
-  options,
-  defaultValue,
-  required,
-  register,
-  error,
-  ...props
-}: SelectInputProps) {
-  return (
-    <div className="w-full space-y-2">
-      {/* Label atas */}
-      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-        {label}
-      </label>
-
-      <div className="relative group">
-        {/* Dropdown Icon */}
-        <div className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none group-focus-within:text-indigo-600 transition-colors">
-          <ChevronDown size={18} />
-        </div>
-
-        {/* Input Select */}
-        <select
-          name={name}
-          {...props}
-          required={required}
-          defaultValue={defaultValue}
-          className="w-full p-4 bg-slate-50 dark:bg-slate-800 border-none rounded-2xl outline-none focus:ring-2 ring-indigo-500 font-bold text-sm text-slate-800 dark:text-slate-200 appearance-none transition-all cursor-pointer"
-        >
-          <option value="" disabled className="text-slate-400">
-            Pilih {label}...
-          </option>
-          {options.map((opt) => (
-            <option key={opt} value={opt} className="font-bold">
-              {opt}
-            </option>
-          ))}
-        </select>
-      </div>
-    </div>
-  );
-}
 import React from "react";
 
 interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -141,7 +6,7 @@ interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   register?: any; // Ini tempat menampung register("nama")
 }
 
-const Input = React.forwardRef<HTMLInputElement, FormInputProps>(
+export const Input = React.forwardRef<HTMLInputElement, FormInputProps>(
   ({ label, error, register, className, ...props }, ref) => {
     return (
       <div className="w-full space-y-2">
@@ -176,3 +41,188 @@ const Input = React.forwardRef<HTMLInputElement, FormInputProps>(
 
 Input.displayName = "FormInput";
 export default Input;
+
+// // import React from "react";
+
+interface SelectInputProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
+  label?: string;
+  error?: string;
+  options: string[] | { label: string; value: string }[];
+  register?: any;
+}
+
+export const SelectInput = React.forwardRef<
+  HTMLSelectElement,
+  SelectInputProps
+>(({ label, error, options, register, className, ...props }, ref) => {
+  return (
+    <div className="w-full space-y-2">
+      {label && (
+        <label className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">
+          {label}
+        </label>
+      )}
+
+      <div className="relative">
+        <select
+          {...register}
+          {...props}
+          // ref={ref} // Opsional, register sudah membawa ref
+          className={`
+              w-full text-white px-6 py-4 bg-slate-800/40 border border-slate-700/50 rounded-2xl outline-none
+              focus:ring-4 ring-white/5 transition-all font-bold text-sm appearance-none
+              cursor-pointer
+              ${error ? "border-red-500/50 ring-red-500/10" : ""}
+              ${className}
+            `}
+        >
+          <option value="" className="bg-slate-900 text-slate-500">
+            PILIH {label}
+          </option>
+          {options.map((option, index) => {
+            const isString = typeof option === "string";
+            const value = isString ? option : option.value;
+            const text = isString ? option : option.label;
+            return (
+              <option
+                key={index}
+                value={value}
+                className="bg-slate-900 text-white"
+              >
+                {text}
+              </option>
+            );
+          })}
+        </select>
+
+        {/* Custom Arrow Icon (Agar lebih keren daripada arrow bawaan browser) */}
+        <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none">
+          <svg
+            className="w-4 h-4 text-slate-500"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="3"
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
+        </div>
+      </div>
+
+      {error && (
+        <p className="text-[10px] text-red-400 font-bold uppercase tracking-wider ml-2">
+          {error}
+        </p>
+      )}
+    </div>
+  );
+});
+
+SelectInput.displayName = "SelectInput";
+
+// export default SelectInput;
+
+interface FilterSelectProps {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  options: string[]; // Kita buat khusus string[] supaya simpel untuk filter
+  placeholder?: string;
+}
+
+export const FilterSelect = ({
+  label,
+  value,
+  onChange,
+  options = [],
+  placeholder,
+}: FilterSelectProps) => {
+  return (
+    <div className="w-full space-y-2">
+      <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 block">
+        {label}
+      </label>
+
+      <div className="relative">
+        <select
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="w-full text-white px-6 py-3 bg-slate-800/40 border border-slate-700/50 rounded-2xl outline-none
+                     focus:ring-4 ring-white/5 transition-all font-bold text-xs appearance-none cursor-pointer"
+        >
+          {placeholder && (
+            <option value="Semua" className="bg-slate-900 text-slate-500">
+              {placeholder}
+            </option>
+          )}
+
+          {/* Proteksi: Pastikan options adalah array dan filter nilai null/undefined */}
+          {Array.isArray(options) &&
+            options.filter(Boolean).map((opt, index) => (
+              <option
+                key={`${opt}-${index}`}
+                value={opt}
+                className="bg-slate-900 text-white"
+              >
+                {opt}
+              </option>
+            ))}
+        </select>
+
+        {/* Custom Arrow */}
+        <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none">
+          <svg
+            className="w-3 h-3 text-slate-500"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="3"
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+  );
+};
+// Di dalam FilterSelect.tsx
+// export const FilterSelect = ({
+//   label,
+//   value,
+//   onChange,
+//   options,
+//   placeholder,
+// }: any) => {
+//   return (
+//     <div>
+//       <label className="..."> {label} </label>
+//       <select
+//         value={value}
+//         onChange={(e) => onChange(e.target.value)}
+//         className="..."
+//       >
+//         <option value="Semua">{placeholder}</option>
+//         {options.map((opt: any) => {
+//           // Cek apakah opt itu object atau string
+//           const isObj = typeof opt === "object";
+//           const label = isObj ? opt.label : opt;
+//           const val = isObj ? opt.value : opt;
+
+//           return (
+//             <option key={val} value={val}>
+//               {label} {/* Ini yang bikin error tadi jika opt adalah object */}
+//             </option>
+//           );
+//         })}
+//       </select>
+//     </div>
+//   );
+// };

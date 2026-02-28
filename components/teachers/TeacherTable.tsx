@@ -31,18 +31,32 @@ export default function TeachersTable({
           </thead>
           <tbody>
             <AnimatePresence mode="popLayout">
-              {data.map((item) => (
+              {/* {data.map((item) => (
                 <TeacherRow
                   key={item._id}
                   guru={item}
                   activeTab="guru" // Fix label untuk guru
                   onEdit={onEdit}
+                  onDelete={item._id} // Pastikan ini mengirim _id
+                />
+              ))} */}
+              {data.map((item) => (
+                <TeacherRow
+                  key={item._id}
+                  guru={item}
+                  onEdit={onEdit}
+                  // PERBAIKAN: Kirimkan fungsi onDelete yang menerima id
                   onDelete={onDelete}
                 />
               ))}
             </AnimatePresence>
           </tbody>
         </table>
+        {data.length === 0 && (
+          <div className="p-20 text-center text-slate-400 font-bold italic">
+            Data tidak ditemukan...
+          </div>
+        )}
       </div>
     </motion.div>
   );
@@ -121,28 +135,34 @@ export function TeacherRow({ guru, onEdit, onDelete }: any) {
           {isOpen && (
             <motion.div
               ref={menuRef}
-              initial={{ opacity: 0, scale: 0.9, x: 10 }}
-              animate={{ opacity: 1, scale: 1, x: 0 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              className="absolute right-8 top-16 w-44 bg-slate-900 border border-white/10 rounded-2xl shadow-2xl z-50 p-2"
+              initial={{ opacity: 0, scale: 0.9, y: -10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: -10 }}
+              className="absolute right-8 top-16 w-48 bg-white dark:bg-slate-900 border dark:border-slate-800 rounded-2xl shadow-2xl z-[100] p-2"
             >
+              <p className="text-[9px] flex justify-start font-black text-slate-400 uppercase tracking-widest px-3 py-2 border-b dark:border-slate-800 mb-1">
+                Opsi Kelola
+              </p>
+
+              {/* Tombol Edit & Delete */}
               <button
                 onClick={() => {
                   onEdit(guru);
                   setIsOpen(false);
                 }}
-                className="w-full flex items-center gap-3 px-3 py-3 text-[10px] font-black uppercase text-slate-300 hover:bg-indigo-600 hover:text-white rounded-xl transition-all"
+                className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-xl transition-colors text-left"
               >
-                <Edit size={14} /> Edit Guru
+                <Edit size={16} className="text-blue-500" /> Edit Data
               </button>
               <button
                 onClick={() => {
-                  onDelete(guru.id);
+                  // Ini akan memanggil onDelete yang ada di TeacherLayout (induknya)
+                  if (onDelete) onDelete(guru._id);
                   setIsOpen(false);
                 }}
-                className="w-full flex items-center gap-3 px-3 py-3 text-[10px] font-black uppercase text-rose-400 hover:bg-rose-600 hover:text-white rounded-xl transition-all border-t border-white/5"
+                className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-bold text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-colors text-left"
               >
-                <Trash2 size={14} /> Hapus Guru
+                <Trash2 size={16} /> Hapus Data
               </button>
             </motion.div>
           )}

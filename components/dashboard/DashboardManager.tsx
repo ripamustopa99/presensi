@@ -51,7 +51,7 @@ export default function DashboardLayout({ children, user }: any) {
         <main className="flex-1 w-full flex flex-col">
           <Header
             user={user}
-            activeTab={activeTab}
+            // activeTab={activeTab}
             setIsSidebarOpen={setIsSidebarOpen}
           />
           {children}

@@ -5,12 +5,25 @@
   --foreground: #171717;
 }
 
-@theme inline {
+@layer utilities {
+  /* Menghilangkan scrollbar untuk Chrome, Safari dan Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Menghilangkan scrollbar untuk IE, Edge dan Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
+/* @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
+} */
 
 @media (prefers-color-scheme: dark) {
   :root {

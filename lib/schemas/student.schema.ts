@@ -26,7 +26,7 @@ export const studentSchema = z.object({
     .max(100, "Nama terlalu panjang"),
 
   // NIS tetap string tapi divalidasi harus angka
-  NIS: z.string().min(1, "NIS wajib diisi").regex(/^\d+$/, "NIS harus angka"),
+  nis: z.string().min(1, "NIS wajib diisi").regex(/^\d+$/, "NIS harus angka"),
 
   class: z.string().min(1, "Kelas wajib diisi"),
 });

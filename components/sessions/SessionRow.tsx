@@ -9,10 +9,10 @@ export function SantriRow({
   onNoteChange,
 }: any) {
   const options = [
-    { id: "Hadir", label: "H", color: "bg-emerald-500" },
-    { id: "Izin", label: "I", color: "bg-amber-500" },
-    { id: "Sakit", label: "S", color: "bg-blue-500" },
-    { id: "Alpa", label: "A", color: "bg-rose-500" },
+    { _id: "Hadir", label: "H", color: "bg-emerald-500" },
+    { _id: "Izin", label: "I", color: "bg-amber-500" },
+    { _id: "Sakit", label: "S", color: "bg-blue-500" },
+    { _id: "Alpa", label: "A", color: "bg-rose-500" },
   ];
 
   return (
@@ -20,14 +20,14 @@ export function SantriRow({
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center font-black text-slate-500 text-[10px]">
-            {/* {santri.nama.substring(0, 2).toUpperCase()} */}
+            {santri.name.substring(0, 2).toUpperCase()}
           </div>
           <div>
             <h4 className="text-sm font-bold text-slate-200 uppercase tracking-tight">
-              {santri.nama}
+              {santri.name}
             </h4>
             <p className="text-[9px] text-slate-500 font-bold tracking-widest uppercase">
-              NIS: {santri.NIS}
+              NIS: {santri.nis}
             </p>
           </div>
         </div>
@@ -35,11 +35,15 @@ export function SantriRow({
         <div className="flex gap-2">
           {options.map((opt) => (
             <button
-              key={opt.id}
-              onClick={() => onStatusChange(santri.id, opt.id)}
+              key={opt._id}
+              onClick={() => {
+                // Jika status yang diklik sudah aktif, set jadi null (batal), jika tidak set ke status baru
+                const newStatus = currentStatus === opt._id ? null : opt._id;
+                onStatusChange(santri._id, newStatus);
+              }}
               className={`w-10 h-10 rounded-xl font-black text-[10px] transition-all duration-300 ${
-                currentStatus === opt.id
-                  ? `${opt.color} text-white shadow-lg shadow-${opt.id}/20 scale-110`
+                currentStatus === opt._id
+                  ? `${opt.color} text-white shadow-lg scale-110`
                   : "bg-slate-800 text-slate-500 hover:bg-slate-700"
               }`}
             >
@@ -61,7 +65,7 @@ export function SantriRow({
               type="text"
               placeholder={`Alasan ${currentStatus.toLowerCase()}...`}
               value={currentNote}
-              onChange={(e) => onNoteChange(santri.id, e.target.value)}
+              onChange={(e) => onNoteChange(santri._id, e.target.value)}
               className="w-full mt-4 bg-slate-950 border border-white/5 rounded-xl px-4 py-3  text-indigo-400 outline-none focus:border-indigo-500/50 transition-all"
             />
           </motion.div>

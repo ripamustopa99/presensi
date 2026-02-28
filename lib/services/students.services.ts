@@ -1,95 +1,177 @@
-// import fs from "fs/promises";
-// import path from "path";
+import { db } from "@/lib/firebase-admin";
 
-// const filePath = path.join(process.cwd(), "data/student.json");
+const COLLECTION_NAME = "students";
 
-// export async function getAllStudents() {
-//   const file = await fs.readFile(filePath, "utf-8");
-//   return JSON.parse(file);
-// }
-
-// export async function createStudent(data: any) {
-//   const student = await getAllStudents();
-
-//   student.push({
-//     id: Date.now().toString(),
-//     ...data,
-//   });
-
-//   await fs.writeFile(filePath, JSON.stringify(student, null, 2));
-// }
-
-// export async function deleteStudent(id: string) {
-//   const student = await getAllStudents();
-//   const filtered = student.filter((item: any) => item.id !== id);
-
-//   await fs.writeFile(filePath, JSON.stringify(filtered, null, 2));
-// }
-import fs from "fs/promises";
-import path from "path";
-
-const filePath = path.join(process.cwd(), "../db-local.json");
-
-// Helper untuk memastikan folder dan file ada
-async function ensureFileExists() {
-  try {
-    await fs.access(filePath);
-  } catch {
-    // Jika folder data belum ada, buat folderners
-    const dir = path.dirname(filePath);
-    await fs.mkdir(dir, { recursive: true });
-    // Buat file JSON kosong
-    await fs.writeFile(filePath, JSON.stringify([], null, 2));
-  }
-}
-
+/**
+ * PRO: Get All Students
+ * Menggunakan sorting agar data tidak acak-acakan saat ditampilkan
+ */
 export async function getAllStudents() {
   try {
-    await ensureFileExists();
-    const file = await fs.readFile(filePath, "utf-8");
-    return JSON.parse(file);
+    const snapshot = await db
+      .collection(COLLECTION_NAME)
+      .orderBy("name", "asc") // Pro: Urutkan nama sesuai abjad
+      .get();
+
+    return snapshot.docs.map((doc) => ({
+      _id: doc.id,
+      ...doc.data(),
+    }));
   } catch (error) {
-    console.error("Error reading students:", error);
+    console.error("🔥 Pro Error [getAllStudents]:", error);
     return [];
   }
 }
 
+/**
+ * PRO: Create Student
+ * Proteksi Duplikat NIS/Email + Sanitasi Nama
+ */
 export async function createStudent(data: any) {
-  const students = await getAllStudents();
+  try {
+    // 1. Sanitasi Data
+    const nis = data.nis?.trim();
+    const name = data.name?.toUpperCase().trim(); // Pro: Nama santri biasanya standar huruf kapital
 
-  const newStudent = {
-    id: Date.now().toString(),
-    ...data,
-    createdAt: new Date().toISOString(),
-  };
+    // 2. Cek Duplikat NIS (Jika ada field NIS)
+    if (nis) {
+      const existingNis = await db
+        .collection(COLLECTION_NAME)
+        .where("nis", "==", nis)
+        .limit(1)
+        .get();
 
-  students.push(newStudent);
-  await fs.writeFile(filePath, JSON.stringify(students, null, 2));
-  return newStudent;
+      if (!existingNis.empty) throw new Error("NIS_ALREADY_EXISTS");
+    }
+
+    // 3. Siapkan Data Pro
+    const cleanData = {
+      ...data,
+      name,
+      nis,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      status: "aktif", // Pro: Tambahkan status default
+    };
+
+    const docRef = await db.collection(COLLECTION_NAME).add(cleanData);
+
+    return {
+      _id: docRef.id,
+      ...cleanData,
+    };
+  } catch (error: any) {
+    console.error("🔥 Pro Error [createStudent]:", error.message);
+    throw error;
+  }
 }
 
-// FUNGSI UPDATE (Baru)
+/**
+ * PRO: Update Student
+ */
 export async function updateStudent(id: string, data: any) {
-  const students = await getAllStudents();
-  const index = students.findIndex((item: any) => item.id === id);
+  if (!id) throw new Error("ID_REQUIRED");
 
-  if (index === -1) throw new Error("Santri tidak ditemukan");
+  try {
+    const studentRef = db.collection(COLLECTION_NAME).doc(id);
+    const doc = await studentRef.get();
 
-  // Gabungkan data lama dengan data baru, tapi ID tetap yang lama
-  students[index] = {
-    ...students[index],
-    ...data,
-    id,
-    updatedAt: new Date().toISOString(),
-  };
+    if (!doc.exists) throw new Error("STUDENT_NOT_FOUND");
 
-  await fs.writeFile(filePath, JSON.stringify(students, null, 2));
-  return students[index];
+    // Pro: Hindari menimpa ID atau tanggal buat
+    const updatedData = {
+      ...data,
+      name: data.name?.toUpperCase().trim(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    delete updatedData._id;
+    delete updatedData.createdAt;
+
+    await studentRef.update(updatedData);
+
+    return { _id: id, ...updatedData };
+  } catch (error: any) {
+    console.error("🔥 Pro Error [updateStudent]:", error.message);
+    throw error;
+  }
 }
 
+/**
+ * PRO: Delete Student
+ */
 export async function deleteStudent(id: string) {
-  const students = await getAllStudents();
-  const filtered = students.filter((item: any) => item.id !== id);
+  if (!id) throw new Error("ID_REQUIRED");
 
-  await fs.writeFile(filePath, JSON.stringify(filtered, null, 2));
+  try {
+    // Pro: Bisa tambahkan pengecekan apakah santri punya riwayat absen
+    // Jika punya, sebaiknya dilarang hapus (harus hapus absen dulu)
+    await db.collection(COLLECTION_NAME).doc(id).delete();
+    return { success: true };
+  } catch (error: any) {
+    console.error("🔥 Pro Error [deleteStudent]:", error.message);
+    throw error;
+  }
 }
+// import fs from "fs/promises";
+// import path from "path";
+
+// const filePath = path.join(process.cwd(), "lib/db-local.json"); // Pastikan path ini benar
+
+// // Helper untuk membaca database utuh
+// async function readDB() {
+//   try {
+//     const file = await fs.readFile(filePath, "utf-8");
+//     return JSON.parse(file);
+//   } catch (error) {
+//     // Jika file tidak ada, kembalikan struktur default
+//     return { users: [], students: [], classes: [], sessions: [] };
+//   }
+// }
+
+// // Helper untuk menulis database utuh
+// async function writeDB(data: any) {
+//   await fs.writeFile(filePath, JSON.stringify(data, null, 2));
+// }
+
+// export async function getAllStudents() {
+//   const db = await readDB();
+//   return db.students || [];
+// }
+
+// export async function createStudent(data: any) {
+//   const db = await readDB();
+
+//   const newStudent = {
+//     _id: Date.now().toString(), // Gunakan _id agar konsisten dengan schema kamu
+//     ...data,
+//     createdAt: new Date().toISOString(),
+//   };
+
+//   db.students.push(newStudent);
+//   await writeDB(db);
+//   return newStudent;
+// }
+
+// export async function updateStudent(id: string, data: any) {
+//   const db = await readDB();
+//   const index = db.students.findIndex((s: any) => s._id === id || s.id === id);
+
+//   if (index === -1) throw new Error("Santri tidak ditemukan");
+
+//   db.students[index] = {
+//     ...db.students[index],
+//     ...data,
+//     _id: id, // Pastikan ID tidak berubah
+//     updatedAt: new Date().toISOString(),
+//   };
+
+//   await writeDB(db);
+//   return db.students[index];
+// }
+
+// export async function deleteStudent(id: string) {
+//   const db = await readDB();
+//   db.students = db.students.filter((s: any) => s._id !== id && s.id !== id);
+//   await writeDB(db);
+// }

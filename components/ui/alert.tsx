@@ -1,71 +1,76 @@
 "use client";
-
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, X, ArrowRight, Zap } from "lucide-react";
+import { AlertCircle, CheckCircle2, X } from "lucide-react";
 
-interface WelcomeBannerProps {
-  userName: string;
-  role: string;
+interface AlertProps {
+  message: string;
+  type: "success" | "error";
+  onClose: () => void;
+  duration?: number; // Durasi dalam milidetik
 }
 
-export default function WelcomeBanner({ userName, role }: WelcomeBannerProps) {
-  const [isVisible, setIsVisible] = useState(true);
+export function Alert({ message, type, onClose, duration = 3000 }: AlertProps) {
+  // Auto close setelah durasi habis
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      onClose();
+    }, duration);
+    return () => clearTimeout(timer);
+  }, [onClose, duration]);
 
   return (
-    <AnimatePresence>
-      {isVisible && (
-        <motion.div
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ height: "auto", opacity: 1 }}
-          exit={{ height: 0, opacity: 0 }}
-          transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-          className="w-full overflow-hidden"
+    <motion.div
+      initial={{ opacity: 0, x: 50, scale: 0.9 }}
+      animate={{ opacity: 1, x: 0, scale: 1 }}
+      exit={{ opacity: 0, x: 20, scale: 0.95 }}
+      className={`fixed top-6 right-6 z-[999] w-80 overflow-hidden rounded-xl border backdrop-blur-md shadow-2xl ${
+        type === "success"
+          ? "bg-slate-900/90 border-emerald-500/50 text-emerald-400"
+          : "bg-slate-900/90 border-red-500/50 text-red-400"
+      }`}
+    >
+      <div className="p-4 flex items-start gap-4">
+        <div
+          className={`mt-0.5 p-1.5 rounded-lg ${
+            type === "success" ? "bg-emerald-500/10" : "bg-red-500/10"
+          }`}
         >
-          {/* Container Banner */}
-          <div className="bg-indigo-600 dark:bg-indigo-900 px-4 py-3 lg:py-2">
-            <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
-              {/* Left Side: Info */}
-              <div className="flex items-center gap-3">
-                <div className="flex-shrink-0 w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center text-white">
-                  <Zap size={18} fill="currentColor" />
-                </div>
-                <div className="text-white text-sm md:text-base">
-                  <span className="opacity-80 font-medium">
-                    Selamat datang kembali,
-                  </span>
-                  <span className="font-black tracking-tight">{userName}</span>
-                  <span className="hidden md:inline mx-2 opacity-30">|</span>
-                  <span className="hidden md:inline px-2 py-0.5 bg-white/10 rounded-md text-[10px] font-black uppercase tracking-wider">
-                    Akses {role}
-                  </span>
-                </div>
-              </div>
+          {type === "success" ? (
+            <CheckCircle2 size={18} />
+          ) : (
+            <AlertCircle size={18} />
+          )}
+        </div>
 
-              {/* Right Side: Action & Close */}
-              <div className="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end">
-                <button className="flex items-center gap-2 text-xs font-black text-indigo-100 hover:text-white transition-colors group">
-                  LIHAT LAPORAN HARI INI
-                  <ArrowRight
-                    size={14}
-                    className="group-hover:translate-x-1 transition-transform"
-                  />
-                </button>
+        <div className="flex-1">
+          <h4 className="text-[10px] font-black uppercase tracking-[0.2em] mb-1 opacity-50">
+            {type === "success" ? "Berhasil" : "Terjadi Kesalahan"}
+          </h4>
+          <p className="text-[11px] font-bold leading-relaxed text-slate-200">
+            {message}
+          </p>
+        </div>
 
-                <button
-                  onClick={() => setIsVisible(false)}
-                  className="p-1.5 hover:bg-black/10 rounded-full transition-colors text-indigo-200"
-                >
-                  <X size={18} />
-                </button>
-              </div>
-            </div>
-          </div>
+        <button
+          onClick={onClose}
+          className="hover:bg-white/10 p-1 rounded-md transition-colors"
+        >
+          <X size={14} className="text-slate-500" />
+        </button>
+      </div>
 
-          {/* Subtle Bottom Border/Shadow */}
-          <div className="h-[1px] bg-black/5 dark:bg-white/5 shadow-sm" />
-        </motion.div>
-      )}
-    </AnimatePresence>
+      {/* PROGRESS BAR LOADING */}
+      <div className="absolute bottom-0 left-0 w-full h-[3px] bg-white/5">
+        <motion.div
+          initial={{ width: "100%" }}
+          animate={{ width: "0%" }}
+          transition={{ duration: duration / 1000, ease: "linear" }}
+          className={`h-full ${
+            type === "success" ? "bg-emerald-500" : "bg-red-500"
+          }`}
+        />
+      </div>
+    </motion.div>
   );
 }
