@@ -135,7 +135,7 @@ export default function LandingPage() {
             </div>
             <div className="relative h-64 md:h-96 rounded-3xl overflow-hidden shadow-xl">
               <Image
-                src="/images/pesantren-about.jpg" // Ganti dengan path gambar tentang pesantren Anda
+                src="/img/foto-3.jpg" // Ganti dengan path gambar tentang pesantren Anda
                 alt="Tentang Pesantren"
                 layout="fill"
                 objectFit="cover"
@@ -225,13 +225,13 @@ export default function LandingPage() {
               quote="Alhamdulillah, anak saya semakin sholeh dan mandiri setelah di Al Musthofa. Metode tahfidznya luar biasa."
               author="Ibu Fatimah"
               role="Wali Santri"
-              avatar="/images/avatar-1.jpg" // Ganti dengan path avatar
+              avatar="/img/foto-4.jpg" // Ganti dengan path avatar
             />
             <TestimonialCard
               quote="Lingkungan pesantren yang kondusif membuat saya betah belajar. Para ustadz dan ustadzah sangat membimbing."
               author="Ahmad Dzaki"
               role="Alumni 2023"
-              avatar="/images/avatar-2.jpg" // Ganti dengan path avatar
+              avatar="/img/foto-4.jpg" // Ganti dengan path avatar
             />
           </div>
         </div>

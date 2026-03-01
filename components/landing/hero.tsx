@@ -117,7 +117,7 @@ export default function Jumbotron() {
           {/* Frame Gambar Utama */}
           <div className="relative z-10 w-full aspect-[6/7] rounded-[4rem] overflow-hidden border-[12px] border-white shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] rotate-2 hover:rotate-0 transition-transform duration-700">
             <img
-              src="/images/hero-santri.jpg" // Ganti dengan foto santri sedang mengaji/belajar
+              src="/img/foto-1.jpg" // Ganti dengan foto santri sedang mengaji/belajar
               className="w-full h-full object-cover"
               alt="Santri Al-Musthofa"
             />
