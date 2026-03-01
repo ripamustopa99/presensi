@@ -9,10 +9,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Alert } from "@/components/ui/Alert";
 import { DeleteConfirmModal } from "@/components/ui/DeleteConfirmModal"; // Sesuaikan path-nya
 
-interface Teacher {
-  _id: string;
-  name: string;
-}
+// interface Teacher {
+//   _id: string;
+//   name: string;
+// }
 
 interface ClassData {
   _id: string;
@@ -25,7 +25,7 @@ export default function ClassManager({
   initialTeachers,
 }: {
   initialClasses: ClassData[];
-  initialTeachers: Teacher[];
+  initialTeachers: any;
 }) {
   const router = useRouter();
   const [classes, setClasses] = useState<ClassData[]>(initialClasses);

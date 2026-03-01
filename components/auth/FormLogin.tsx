@@ -22,7 +22,7 @@ import {
 interface FormLoginProps {
   accentColor: string;
   accentBg: string;
-  setView: (view: string) => void;
+  setView: (view: "login" | "forgot") => void;
   view: string;
   role: "admin" | "guru"; // Batasi tipe role di sini
 }

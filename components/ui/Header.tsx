@@ -5,8 +5,6 @@ import { Menu, User } from "lucide-react";
 import { usePathname } from "next/navigation"; // Hook untuk deteksi URL
 import ProfileSidebar from "../profile/Profile";
 import { UserData } from "@/lib/schemas/auth.schema";
-// import { db } from "@/lib/firebase-admin";
-// import { doc, onSnapshot } from "firebase/firestore";
 
 interface HeaderProps {
   user: UserData | null;
@@ -38,23 +36,6 @@ const Header = ({ user, setIsSidebarOpen }: HeaderProps) => {
         return "DASHBOARD";
     }
   }, [pathname]);
-
-  // 2. REAL-TIME FETCH DATA DARI DATABASE (Firestore)
-  // useEffect(() => {
-  //   if (!user?._id) return;
-
-  //   // Tentukan koleksi berdasarkan role (asumsi koleksi: teachers atau admins)
-  //   const collectionName = user.role === "admin" ? "admins" : "teachers";
-
-  //   // Gunakan onSnapshot agar data terupdate otomatis jika diubah di database
-  //   const unsub = onSnapshot(doc(db, collectionName, user._id), (doc) => {
-  //     if (doc.exists()) {
-  //       setDbUser(doc.data());
-  //     }
-  //   });
-
-  //   return () => unsub(); // Clean up listener saat component unmount
-  // }, [user?._id, user?.role]);
 
   if (!user) return null;
 

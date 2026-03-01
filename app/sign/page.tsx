@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 
 // Import Potongan Komponen
-import { AuthVisualSide } from "../../components/auth/AuthVisualSide";
-import { FormLogin } from "../../components/auth/FormLogin";
+import { AuthVisualSide } from "@/components/auth/AuthVisualSide";
+import { FormLogin } from "@/components/auth/FormLogin";
 
 export default function AuthPage() {
   const router = useRouter();

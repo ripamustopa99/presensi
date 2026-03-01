@@ -193,36 +193,3 @@ export const FilterSelect = ({
     </div>
   );
 };
-// Di dalam FilterSelect.tsx
-// export const FilterSelect = ({
-//   label,
-//   value,
-//   onChange,
-//   options,
-//   placeholder,
-// }: any) => {
-//   return (
-//     <div>
-//       <label className="..."> {label} </label>
-//       <select
-//         value={value}
-//         onChange={(e) => onChange(e.target.value)}
-//         className="..."
-//       >
-//         <option value="Semua">{placeholder}</option>
-//         {options.map((opt: any) => {
-//           // Cek apakah opt itu object atau string
-//           const isObj = typeof opt === "object";
-//           const label = isObj ? opt.label : opt;
-//           const val = isObj ? opt.value : opt;
-
-//           return (
-//             <option key={val} value={val}>
-//               {label} {/* Ini yang bikin error tadi jika opt adalah object */}
-//             </option>
-//           );
-//         })}
-//       </select>
-//     </div>
-//   );
-// };

@@ -19,21 +19,21 @@ interface ClassItem {
   class_name: string;
 }
 
-interface Student {
-  _id: string;
-  id?: string;
-  name: string;
-  nis?: string;
-  class: string; // Berisi ID Kelas (string)
-  gender: "L" | "P";
-}
+// interface Student {
+//   _id: string;
+//   id?: string;
+//   name: string;
+//   nis?: string;
+//   class: string; // Berisi ID Kelas (string)
+//   gender: "L" | "P";
+// }
 
 export const SantriManager = ({
   students,
   classes,
 }: {
   classes: ClassItem[];
-  students: Student[];
+  students: any[];
 }) => {
   const router = useRouter();
 
@@ -43,8 +43,8 @@ export const SantriManager = ({
 
   // --- CRUD & MODAL STATES ---
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<Student | null>(null);
-  const [editingSantri, setEditingSantri] = useState<Student | null>(null);
+  const [selectedItem, setSelectedItem] = useState<any | null>(null);
+  const [editingSantri, setEditingSantri] = useState<any | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // --- ALERT STATE ---
@@ -149,11 +149,11 @@ export const SantriManager = ({
         <Table
           data={filteredSantri}
           classes={classes}
-          onEdit={(item: Student) => {
+          onEdit={(item: any) => {
             setEditingSantri(item);
             setIsModalOpen(true);
           }}
-          onDelete={(item: Student) => {
+          onDelete={(item: any) => {
             setSelectedItem(item);
             setIsDeleteOpen(true);
           }}
