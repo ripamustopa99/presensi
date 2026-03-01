@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import AbsenGrid from "./SessionGrid";
 import AbsenForm from "./SessionForm";
 import { SantriRow } from "@/components/sessions/SessionRow";
-import { Alert } from "@/components/ui/Alert";
+import Alert from "../ui/Alert";
 import { DeleteConfirmModal } from "@/components/ui/DeleteConfirmModal";
 import {
   deleteSessionAction,

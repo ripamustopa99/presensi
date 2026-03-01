@@ -6,7 +6,7 @@ import ClassesForm from "@/components/classes/ClassesForm";
 import { useRouter } from "next/navigation";
 import { deleteClassAction } from "@/lib/actions/class.actions";
 import { motion, AnimatePresence } from "framer-motion";
-import { Alert } from "@/components/ui/Alert";
+import Alert from "../ui/Alert";
 import { DeleteConfirmModal } from "@/components/ui/DeleteConfirmModal"; // Sesuaikan path-nya
 
 // interface Teacher {

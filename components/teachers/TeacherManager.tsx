@@ -6,7 +6,7 @@ import TeachersTable from "@/components/teachers/TeacherTable";
 import { TeacherModal } from "@/components/teachers/TeacherModal";
 import { DeleteConfirmModal } from "../ui/DeleteConfirmModal";
 import { deleteTeacherAction } from "@/lib/actions/teacher.actions";
-import { Alert } from "@/components/ui/Alert"; // Pastikan path import benar
+import Alert from "../ui/Alert"; // Pastikan path import benar
 import { AnimatePresence } from "framer-motion";
 
 export default function TeacherLayout({ data: initialData }: { data: any[] }) {

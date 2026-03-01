@@ -1,7 +1,7 @@
 "use client";
 import { useForm, SubmitHandler } from "react-hook-form";
 import React, { useEffect, useState } from "react";
-import { Modal } from "@/components/ui/Modal";
+import Modal from "../ui/Modal";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { sessionSchema, SessionInput } from "@/lib/schemas/session.schema";

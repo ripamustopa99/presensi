@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import { Modal } from "../ui/Modal";
+import Modal from "../ui/Modal";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { classSchema, ClassInput } from "@/lib/schemas/class.schema";

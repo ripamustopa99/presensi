@@ -1,6 +1,6 @@
 "use client";
-import React, { useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect } from "react";
+import { motion } from "framer-motion";
 import { AlertCircle, CheckCircle2, X } from "lucide-react";
 
 interface AlertProps {
@@ -10,7 +10,12 @@ interface AlertProps {
   duration?: number; // Durasi dalam milidetik
 }
 
-export function Alert({ message, type, onClose, duration = 3000 }: AlertProps) {
+export default function Alert({
+  message,
+  type,
+  onClose,
+  duration = 3000,
+}: AlertProps) {
   // Auto close setelah durasi habis
   useEffect(() => {
     const timer = setTimeout(() => {

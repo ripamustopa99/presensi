@@ -11,7 +11,7 @@ import { DeleteConfirmModal } from "@/components/ui/DeleteConfirmModal";
 import { StudentModal } from "./StudentModal";
 import { Table } from "./StudentTable";
 import ClassesFilter from "@/components/students/StudentFilterClass";
-import { Alert } from "@/components/ui/Alert";
+import Alert from "../ui/Alert";
 
 // --- INTERFACES ---
 interface ClassItem {

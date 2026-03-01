@@ -24,7 +24,7 @@ import {
   updateProfileAction,
   getUserDataAction,
 } from "@/lib/actions/profile.actions";
-import { Alert } from "@/components/ui/Alert";
+import Alert from "../ui/Alert";
 import { EditableField } from "./EditableField";
 
 interface UserData {
