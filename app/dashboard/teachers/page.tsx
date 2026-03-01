@@ -1,33 +1,18 @@
 import TeacherLayout from "@/components/teachers/TeacherManager";
 import { getAllTeachers } from "@/lib/services/teacher.services";
-
+import LoadingPage from "@/components/ui/LoadingPage";
 export const dynamic = "force-dynamic";
-
+import { Metadata } from "next";
+import { Suspense } from "react";
+export const metadata: Metadata = {
+  title: "Manajemen Guru | Sistem Akademik",
+  description: "Kelola data kelas dan wali kelas",
+};
 export default async function TeacherPage() {
-  // try {
   const data = await getAllTeachers();
-
-  //   if (!data || data.length === 0) {
-  //     return (
-  //       <div className="p-8 text-center">
-  //         <p>Belum ada data guru yang tersedia.</p>
-  //       </div>
-  //     );
-  //   }
-
   return (
-    <main className="container mx-auto py-6">
+    <Suspense fallback={<LoadingPage />}>
       <TeacherLayout data={data} />
-    </main>
+    </Suspense>
   );
-  // } catch (error) {
-  //   // Log error untuk kebutuhan debugging
-  //   console.error("Failed to fetch teachers:", error);
-
-  //   return (
-  //     <div className="p-8 text-center text-red-500">
-  //       <p>Gagal memuat data guru. Silakan coba lagi nanti.</p>
-  //     </div>
-  //   );
-  // }
 }

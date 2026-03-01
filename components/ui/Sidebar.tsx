@@ -11,12 +11,15 @@ import {
   ListCheck,
   School,
 } from "lucide-react";
+import { UserData } from "@/lib/schemas/auth.schema";
 import Link from "next/link";
 import { usePathname } from "next/navigation"; // Hook penting untuk deteksi URL
-import { LogoutModal } from "./logoutmodal";
-
-export const Sidebar = ({ user, close }: any) => {
-  const [isLogoutOpen, setIsLogoutOpen] = useState(false);
+interface SidebarProps {
+  user: UserData | null;
+  close: any;
+  setIsLogoutOpen: (val: boolean) => void;
+}
+export const Sidebar = ({ user, close, setIsLogoutOpen }: SidebarProps) => {
   const pathname = usePathname(); // Mendapatkan path saat ini, misal: /dashboard/students
 
   // 1. Logika Menentukan Tab Aktif dari URL
@@ -59,7 +62,7 @@ export const Sidebar = ({ user, close }: any) => {
             {user?.role === "guru" ? "SIM SANTRI" : "ADMIN PANEL"}
           </span>
           <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">
-            {user?.role || "Guest"} Mode
+            {user?.role || "Teacher"} Mode
           </span>
         </div>
       </div>
@@ -95,11 +98,6 @@ export const Sidebar = ({ user, close }: any) => {
           Versi 1.0.4 • 2026
         </p>
       </div>
-
-      <LogoutModal
-        isOpen={isLogoutOpen}
-        onClose={() => setIsLogoutOpen(false)}
-      />
     </>
   );
 };

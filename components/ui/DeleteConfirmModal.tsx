@@ -1,4 +1,4 @@
-import { Modal } from "./modal";
+import { Modal } from "./Modal";
 import { Trash2, AlertTriangle, X } from "lucide-react";
 
 interface DeleteModalProps {

@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 // Actions & UI Components
 import { deleteStudentAction } from "@/lib/actions/students.actions";
 import SearchBar from "@/components/ui/SearchBar";
-import { DeleteConfirmModal } from "@/components/ui/deletemodal";
+import { DeleteConfirmModal } from "@/components/ui/DeleteConfirmModal";
 import { StudentModal } from "./StudentModal";
 import { Table } from "./StudentTable";
 import ClassesFilter from "@/components/students/StudentFilterClass";

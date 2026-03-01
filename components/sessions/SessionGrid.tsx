@@ -3,14 +3,20 @@ import { LayoutGrid } from "lucide-react";
 import AbsenSessionCard from "@/components/sessions/SessionCard";
 
 interface AbsenGridProps {
+  classes: any[];
+  students: any[];
   sessions: any[];
+  onUpdateInline: any;
   onStart: (session: any) => void;
   onEdit: (session: any) => void;
   onDelete: (_id: string) => void;
 }
 
 export default function AbsenGrid({
+  classes,
   sessions,
+  students,
+  onUpdateInline,
   onStart,
   onEdit,
   onDelete,
@@ -28,13 +34,26 @@ export default function AbsenGrid({
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {sessions.map((s) => (
+      {/* {sessions.map((s) => (
         <AbsenSessionCard
+          classes={classes}
           key={s._id}
           session={s}
           onStart={() => onStart(s)}
           onEdit={() => onEdit(s)}
-          onDelete={() => onDelete(s._id)}
+          onDelete={() => onDelete(s)} // KIRIM OBJEK 's', jangan s._id saja
+        />
+      ))} */}
+
+      {sessions.map((s: any) => (
+        <AbsenSessionCard
+          key={s._id}
+          session={s}
+          classes={classes}
+          students={students}
+          onStart={onStart}
+          onDelete={onDelete}
+          onUpdateInline={onUpdateInline} // Teruskan ke Card
         />
       ))}
     </div>

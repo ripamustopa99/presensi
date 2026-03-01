@@ -1,102 +1,10 @@
-// "use client";
-// import { useState, useEffect } from "react"; // Tambahkan useEffect
-// import SearchBar from "@/components/ui/SearchBar";
-// import { Plus } from "lucide-react";
-// import TeachersTable from "@/components/teachers/TeacherTable";
-// import { TeacherModal } from "@/components/teachers/TeacherModal";
-// import { DeleteConfirmModal } from "../ui/deletemodal";
-// import { deleteTeacherAction } from "@/lib/actions/teacher.actions";
-
-// export default function TeacherLayout({ data: initialData }: { data: any[] }) {
-//   // 1. Inisialisasi state dengan data dari props
-//   const [teachers, setTeachers] = useState(initialData);
-//   const [selectedItem, setSelectedItem] = useState<any>(null);
-//   const [editingGuru, setEditingGuru] = useState<any>(null);
-//   const [searchTerm, setSearchTerm] = useState("");
-//   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-//   const [isModalOpen, setIsModalOpen] = useState(false);
-
-//   // Update state jika initialData dari server berubah
-//   useEffect(() => {
-//     setTeachers(initialData);
-//   }, [initialData]);
-
-//   const confirmDelete = async () => {
-//     if (selectedItem) {
-//       try {
-//         const idToDelete = selectedItem._id;
-
-//         // 2. Panggil Server Action
-//         await deleteTeacherAction(idToDelete);
-
-//         // 3. Update UI secara optimis (hapus dari state lokal)
-//         setTeachers((prev) => prev.filter((t) => t._id !== idToDelete));
-
-//         // 4. Tutup modal dan reset
-//         setIsDeleteOpen(false);
-//         setSelectedItem(null);
-//       } catch (error) {
-//         console.error("Gagal menghapus guru:", error);
-//         alert("Terjadi kesalahan saat menghapus data.");
-//       }
-//     }
-//   };
-
-//   // Filter data berdasarkan search term
-//   const filteredData = teachers.filter((t) =>
-//     t.name?.toLowerCase().includes(searchTerm.toLowerCase()),
-//   );
-
-//   return (
-//     <div className="p-4 lg:p-10 max-w-7xl mx-auto w-full space-y-8">
-//       <div className="flex flex-col md:flex-row gap-4 justify-between items-center">
-//         <SearchBar activeTab={"guru"} setSearchTerm={setSearchTerm} />
-
-//         <button
-//           onClick={() => {
-//             setEditingGuru(null);
-//             setIsModalOpen(true);
-//           }}
-//           className="w-full md:w-auto bg-indigo-600 text-white px-8 py-4 rounded-2xl font-bold flex items-center justify-center gap-2 shadow-lg hover:bg-indigo-700 active:scale-95 transition-all"
-//         >
-//           <Plus size={20} /> Tambah Guru
-//         </button>
-//       </div>
-
-//       <TeachersTable
-//         data={filteredData} // Gunakan data hasil filter/state
-//         onEdit={(item) => {
-//           setEditingGuru(item);
-//           setIsModalOpen(true);
-//         }}
-//         onDelete={(id) => {
-//           setSelectedItem(teachers.find((g) => g._id === id));
-//           setIsDeleteOpen(true);
-//         }}
-//       />
-
-//       <TeacherModal
-//         isOpen={isModalOpen}
-//         onClose={() => setIsModalOpen(false)}
-//         editingGuru={editingGuru}
-//       />
-
-//       <DeleteConfirmModal
-//         isOpen={isDeleteOpen}
-//         onClose={() => setIsDeleteOpen(false)}
-//         onConfirm={confirmDelete}
-//         itemName={selectedItem?.name || "data ini"}
-//       />
-//     </div>
-//   );
-// }
 "use client";
 import { useState, useEffect } from "react";
 import SearchBar from "@/components/ui/SearchBar";
 import { Plus } from "lucide-react";
 import TeachersTable from "@/components/teachers/TeacherTable";
 import { TeacherModal } from "@/components/teachers/TeacherModal";
-import { DeleteConfirmModal } from "../ui/deletemodal";
+import { DeleteConfirmModal } from "../ui/DeleteConfirmModal";
 import { deleteTeacherAction } from "@/lib/actions/teacher.actions";
 import { Alert } from "@/components/ui/Alert"; // Pastikan path import benar
 import { AnimatePresence } from "framer-motion";

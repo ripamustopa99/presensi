@@ -1,5 +1,5 @@
 "use client";
-import { Modal } from "@/components/ui/modal";
+import { Modal } from "@/components/ui/Modal";
 import { Input, SelectInput } from "@/components/ui/Input";
 import { Loader, Save } from "lucide-react";
 import { StudentInput, studentSchema } from "@/lib/schemas/student.schema";

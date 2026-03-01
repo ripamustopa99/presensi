@@ -12,7 +12,7 @@ export function SantriRow({
     { _id: "Hadir", label: "H", color: "bg-emerald-500" },
     { _id: "Izin", label: "I", color: "bg-amber-500" },
     { _id: "Sakit", label: "S", color: "bg-blue-500" },
-    { _id: "Alpa", label: "A", color: "bg-rose-500" },
+    { _id: "Alfa", label: "A", color: "bg-rose-500" },
   ];
 
   return (

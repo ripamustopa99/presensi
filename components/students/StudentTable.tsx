@@ -13,7 +13,7 @@ import {
   Calendar,
 } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
-import { Modal } from "@/components/ui/modal";
+import { Modal } from "@/components/ui/Modal";
 
 interface TableProps {
   data: any[];

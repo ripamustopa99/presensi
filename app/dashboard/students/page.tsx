@@ -2,9 +2,11 @@ import { getAllStudents } from "@/lib/services/students.services";
 import { SantriManager } from "@/components/students/StudentManager";
 import { getAllClasses } from "@/lib/services/class.services";
 import { Suspense } from "react";
-
-export const metadata = {
-  title: "Dashboard Santri | Admin Panel",
+import LoadingPage from "@/components/ui/LoadingPage";
+import { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "Manajemen Santri | Sistem Akademik",
+  description: "Kelola data santri",
 };
 
 export default async function DashboardPage() {
@@ -26,8 +28,7 @@ export default async function DashboardPage() {
 
   return (
     <div className="p-4 lg:p-10 max-w-7xl mx-auto w-full space-y-8">
-      {/* Gunakan Suspense jika SantriManager punya proses internal yang berat */}
-      <Suspense fallback={<div>Memuat data manager...</div>}>
+      <Suspense fallback={<LoadingPage />}>
         <SantriManager students={allStudents} classes={allClasses} />
       </Suspense>
     </div>

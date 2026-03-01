@@ -2,7 +2,7 @@
 import { LogOut, X, AlertTriangle, Trash2, Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { LogoutAction } from "@/lib/actions/auth.actions";
-import { Modal } from "./modal";
+import { Modal } from "./Modal";
 import { useState } from "react";
 import { redirect } from "next/navigation";
 

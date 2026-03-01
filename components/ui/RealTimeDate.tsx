@@ -30,7 +30,7 @@ export default function RealTimeDate() {
   }, []);
 
   return (
-    <div className="flex items-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-800 rounded-xl border dark:border-slate-700 w-fit">
+    <div className="flex justify-end items-center gap-2 mt-1">
       <Calendar size={16} className="text-teal-500" />
       <span className="text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-tight">
         {currentDate || "Memuat Tanggal..."}

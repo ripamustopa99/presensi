@@ -19,25 +19,34 @@ import {
   Loader,
 } from "lucide-react";
 
+interface FormLoginProps {
+  accentColor: string;
+  accentBg: string;
+  setView: (view: string) => void;
+  view: string;
+  role: "admin" | "guru"; // Batasi tipe role di sini
+}
+
 export const FormLogin = ({
   accentColor,
   accentBg,
   setView,
   view,
   role,
-}: any) => {
+}: FormLoginProps) => {
+  // Gunakan interface tadi
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
 
   const {
     register,
-
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
-    defaultValues: {
-      role,
+    // Pastikan defaultValues sesuai dengan LoginInput
+    values: {
+      role: role,
       remember: false,
       username_email: "",
       password: "",
@@ -46,10 +55,10 @@ export const FormLogin = ({
 
   const onSubmit = async (data: LoginInput) => {
     setError(null);
-
     try {
-      const payload = { ...data, role: role };
-      const result = await handleLoginAction(payload);
+      // Data sudah mengandung role yang benar dari defaultValues/Zod
+      const result = await handleLoginAction(data);
+
       if (result.success) {
         router.push("/dashboard");
       } else {

@@ -1,261 +1,13 @@
-// "use client";
-// import React, { useState, useMemo } from "react"; // Tambahkan useMemo
-// import { Plus, ChevronLeft, Save, Filter, Calendar } from "lucide-react"; // Ikon tambahan
-// import { motion } from "framer-motion";
-// import { useRouter } from "next/navigation";
-// import AbsenGrid from "./SeessionGrid";
-// import AbsenForm from "./SessionForm";
-// import { SantriRow } from "@/components/sessions/SessionRow";
-// import { FilterSelect } from "@/components/ui/Input"; // Asumsi path komponen SelectInput kamu
-// import {
-//   deleteSessionAction,
-//   updateAbsenDataAction,
-// } from "@/lib/actions/session.actions";
-
-// export default function AttendanceManager({
-//   initialSessions,
-//   classes,
-//   students,
-//   user,
-// }: any) {
-//   const [view, setView] = useState<"grid" | "sheet">("grid");
-//   const [currentSession, setCurrentSession] = useState<any>(null);
-//   const [showForm, setShowForm] = useState(false);
-//   const [isEditMode, setIsEditMode] = useState(false);
-
-//   // 1. STATE UNTUK FILTER
-//   const [filterKelas, setFilterKelas] = useState("Semua");
-//   const [filterTanggal, setFilterTanggal] = useState("");
-
-//   const router = useRouter();
-
-//   // 2. LOGIKA FILTER & SORTING (Paling baru muncul paling atas)
-//   const filteredSessions = useMemo(() => {
-//     return initialSessions
-//       .filter((s: any) => {
-//         const isAuthor = s.authorId === user?._id;
-//         const matchKelas = filterKelas === "Semua" || s.classId === filterKelas;
-//         const matchTanggal = !filterTanggal || s.date === filterTanggal;
-//         return isAuthor && matchKelas && matchTanggal;
-//       })
-//       .sort((a: any, b: any) => {
-//         // Sort descending berdasarkan createdat atau ID (Date.now)
-//         // return Number(b._id) - Number(a._id);
-//         const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
-//         const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
-//         return dateB - dateA;
-//       });
-//   }, [initialSessions, user?._id, filterKelas, filterTanggal]);
-
-//   const handleDelete = async (_id: string) => {
-//     if (confirm("Hapus sesi ini?")) {
-//       await deleteSessionAction(_id);
-//       router.refresh();
-//     }
-//   };
-
-//   const handleFinalSave = async () => {
-//     if (!currentSession) return;
-//     const result = await updateAbsenDataAction(
-//       currentSession._id,
-//       currentSession.attendance_data,
-//     );
-//     if (result.success) {
-//       setView("grid");
-//       router.refresh();
-//     }
-//   };
-
-//   return (
-//     <div className="min-h-screen bg-slate-950 p-6 md:p-10 text-slate-200">
-//       <div className="max-w-6xl mx-auto">
-//         {view === "grid" ? (
-//           <motion.div
-//             initial={{ opacity: 0, y: 10 }}
-//             animate={{ opacity: 1, y: 0 }}
-//           >
-//             {/* HEADER & FILTER SECTION */}
-//             <div className="flex flex-col gap-8 mb-12">
-//               <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
-//                 <div>
-//                   {/* <h1 className="text-2xl font-black uppercase italic tracking-tighter text-indigo-500">
-//                     Sesi Presensi
-//                   </h1> */}
-//                   <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest mt-2">
-//                     User: <span className="text-slate-300">{user?.name}</span>
-//                   </p>
-//                 </div>
-//                 <button
-//                   onClick={() => {
-//                     setIsEditMode(false);
-//                     setShowForm(true);
-//                   }}
-//                   className="bg-indigo-600 hover:bg-indigo-500 px-8 py-4 rounded-2xl font-black text-xs uppercase tracking-widest flex items-center gap-3 shadow-lg shadow-indigo-500/20 transition-all active:scale-95"
-//                 >
-//                   <Plus size={18} /> BUAT SESI BARU
-//                 </button>
-//               </div>
-
-//               {/* Filter Bar Section */}
-//               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-slate-900/50 border border-white/5 rounded-xl mb-8">
-//                 <FilterSelect
-//                   label="Filter Kelas"
-//                   value={filterKelas}
-//                   onChange={(val) => setFilterKelas(val)}
-//                   placeholder="SEMUA KELAS"
-//                   // Ambil hanya nama kelas, pastikan classes tidak null
-//                   options={classes?.map((c: any) => c.class_name) || []}
-//                 />
-
-//                 <div>
-//                   <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest ml-1 mb-2 block">
-//                     Filter Tanggal
-//                   </label>
-//                   <input
-//                     type="date"
-//                     value={filterTanggal}
-//                     onChange={(e) => setFilterTanggal(e.target.value)}
-//                     className="w-full bg-slate-800/40 border border-slate-700/50 rounded-2xl px-6 py-3 text-xs font-bold text-white outline-none focus:ring-4 ring-white/5 transition-all"
-//                   />
-//                 </div>
-
-//                 <div className="flex items-end pb-1">
-//                   <button
-//                     onClick={() => {
-//                       setFilterKelas("Semua");
-//                       setFilterTanggal("");
-//                     }}
-//                     className="w-full py-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 hover:text-rose-400 transition-colors"
-//                   >
-//                     Reset Filter
-//                   </button>
-//                 </div>
-//               </div>
-//             </div>
-
-//             <AbsenGrid
-//               sessions={filteredSessions} // Gunakan hasil filter & sort
-//               onStart={(s) => {
-//                 setCurrentSession(s);
-//                 setView("sheet");
-//               }}
-//               onEdit={(s) => {
-//                 setCurrentSession(s);
-//                 setIsEditMode(true);
-//                 setShowForm(true);
-//               }}
-//               onDelete={handleDelete}
-//             />
-//           </motion.div>
-//         ) : (
-//           /* ... (Bagian sheet tetap sama seperti sebelumnya) ... */
-//           <motion.div
-//             initial={{ x: 20, opacity: 0 }}
-//             animate={{ x: 0, opacity: 1 }}
-//           >
-//             {/* ... rest of the code for sheet view ... */}
-//             <div className="flex justify-between items-center mb-8">
-//               <button
-//                 onClick={() => setView("grid")}
-//                 className="flex items-center gap-2 text-slate-500 hover:text-white font-black text-[10px] uppercase tracking-widest transition-colors"
-//               >
-//                 <ChevronLeft size={18} /> Kembali
-//               </button>
-//               <div className="text-right">
-//                 <h2 className="text-xl font-black uppercase">
-//                   Kelas {currentSession?.classId}
-//                 </h2>
-//                 <p className="text-indigo-400 text-[10px] font-black uppercase tracking-widest">
-//                   {currentSession?.date}
-//                 </p>
-//               </div>
-//             </div>
-
-//             <div className="bg-slate-900 border border-white/5 rounded-xl overflow-hidden shadow-2xl">
-//               <div className="divide-y divide-white/5">
-//                 {students
-//                   .filter((s: any) => s.class === currentSession?.classId)
-//                   .map((s: any) => {
-//                     // 1. Ambil data absensi santri ini secara aman
-//                     const studentAttendance =
-//                       currentSession?.attendance_data?.[s._id] || {};
-
-//                     return (
-//                       <SantriRow
-//                         key={s._id}
-//                         santri={s}
-//                         currentStatus={studentAttendance.status} // Tidak akan error lagi
-//                         currentNote={studentAttendance.note || ""}
-//                         onStatusChange={(
-//                           _id: string,
-//                           status: string, // Tambahkan tipe data di sini
-//                         ) =>
-//                           setCurrentSession({
-//                             ...currentSession,
-//                             attendance_data: {
-//                               ...(currentSession?.attendance_data || {}),
-//                               [_id]: {
-//                                 ...(currentSession?.attendance_data?.[_id] ||
-//                                   {}),
-//                                 status, // status di sini bisa bernilai "Hadir", "Izin", atau null
-//                               },
-//                             },
-//                           })
-//                         }
-//                         onNoteChange={(
-//                           _id: string,
-//                           note: string, // Tambahkan tipe data di sini
-//                         ) =>
-//                           setCurrentSession({
-//                             ...currentSession,
-//                             attendance_data: {
-//                               ...(currentSession?.attendance_data || {}),
-//                               [_id]: {
-//                                 ...(currentSession?.attendance_data?.[_id] ||
-//                                   {}),
-//                                 note,
-//                               },
-//                             },
-//                           })
-//                         }
-//                       />
-//                     );
-//                   })}
-//               </div>
-//               <div className="p-8 bg-white/[0.02]">
-//                 <button
-//                   onClick={handleFinalSave}
-//                   className="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-4 rounded-2xl font-black text-xs uppercase tracking-[0.2em] shadow-xl flex items-center justify-center gap-3 transition-all"
-//                 >
-//                   <Save size={18} /> Simpan Seluruh Absensi
-//                 </button>
-//               </div>
-//             </div>
-//           </motion.div>
-//         )}
-//       </div>
-
-//       <AbsenForm
-//         isOpen={showForm}
-//         onClose={() => setShowForm(false)}
-//         formData={currentSession}
-//         isEditMode={isEditMode}
-//         classes={classes}
-//         user={user}
-//       />
-//     </div>
-//   );
-// }
 "use client";
 import React, { useState, useMemo } from "react";
 import { Plus, ChevronLeft, Save, Calendar, UserCheck } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
-import AbsenGrid from "./SeessionGrid";
+import AbsenGrid from "./SessionGrid";
 import AbsenForm from "./SessionForm";
 import { SantriRow } from "@/components/sessions/SessionRow";
 import { Alert } from "@/components/ui/Alert";
-import { DeleteConfirmModal } from "@/components/ui/deletemodal";
+import { DeleteConfirmModal } from "@/components/ui/DeleteConfirmModal";
 import {
   deleteSessionAction,
   updateAbsenDataAction,
@@ -313,6 +65,17 @@ export default function AttendanceManager({
   }, [classes, currentSession]);
 
   // --- HANDLERS ---
+  const handleInlineUpdate = async (id: string, payload: any) => {
+    // Panggil action yang Anda miliki
+    const result = await updateAbsenDataAction(id, payload);
+
+    if (result.success) {
+      showAlert("Sesi berhasil diperbarui", "success");
+      router.refresh();
+    } else {
+      showAlert(result.message, "error");
+    }
+  };
   const handleFinalSave = async () => {
     if (!currentSession) return;
     try {
@@ -339,7 +102,6 @@ export default function AttendanceManager({
   };
 
   const confirmDelete = async () => {
-    alert(sessionToDelete._id);
     if (!sessionToDelete) return;
     try {
       const result = await deleteSessionAction(sessionToDelete._id);
@@ -442,6 +204,9 @@ export default function AttendanceManager({
 
             <AbsenGrid
               sessions={filteredSessions}
+              students={students}
+              classes={classes}
+              onUpdateInline={handleInlineUpdate}
               onStart={(s: any) => {
                 setCurrentSession(JSON.parse(JSON.stringify(s)));
                 setView("sheet");

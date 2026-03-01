@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form"; // Tambah SubmitHandler
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Modal } from "@/components/ui/modal";
+import { Modal } from "@/components/ui/Modal";
 import Input from "@/components/ui/Input";
 import { Save, Loader } from "lucide-react";
 import { teacherSchema, TeacherInput } from "@/lib/schemas/teacher.schema";

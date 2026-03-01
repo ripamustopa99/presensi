@@ -9,8 +9,6 @@ import {
   School,
   BarChart3,
   GraduationCap,
-  Plus,
-  Calendar,
   ArrowRight,
 } from "lucide-react";
 import StatCard from "@/components/dashboard/StatCard";
@@ -18,6 +16,12 @@ import {
   AttendanceChart,
   AttendanceChart2,
 } from "@/components/dashboard/AttendanceChart";
+import RealTimeDate from "@/components/ui/RealTimeDate";
+// import { Metadata } from "next";
+// export const metadata: Metadata = {
+//   title: "Dashboard | Sistem Akademik",
+//   description: "Kelola data",
+// };
 
 export default async function BalancedDashboard() {
   const [classes, students, teachers] = await Promise.all([
@@ -28,14 +32,7 @@ export default async function BalancedDashboard() {
   return (
     <div className="min-h-screen bg-[#020617] p-6 lg:p-10">
       <div className="max-w-7xl mx-auto space-y-8">
-        {/* HEADER SECTION */}
-        <div className="flex justify-end items-center gap-2 mt-1">
-          <Calendar size={12} className="text-slate-500" />
-          <p className="text-[9px] text-slate-500 font-black uppercase tracking-widest">
-            Kamis, 26 Februari 2026
-          </p>
-        </div>
-
+        <RealTimeDate />
         {/* STATCARDS - COMPACT GRID */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <StatCard

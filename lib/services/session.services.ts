@@ -72,6 +72,7 @@ export async function saveSession(data: any) {
  * PRO: Update Absen Data
  * Menggunakan atomicity untuk memastikan status berubah hanya jika data masuk
  */
+
 export async function updateAbsenData(sessionId: string, absenData: any) {
   if (!sessionId) throw new Error("SESSION_ID_REQUIRED");
 
@@ -105,67 +106,3 @@ export async function deleteSession(_id: string) {
     throw error;
   }
 }
-
-// /**
-//  * Menghapus Sesi
-//  */
-// export async function deleteSession(_id: string) {
-//   try {
-//     await db.collection(COLLECTION_NAME).doc(_id).delete();
-//     return { success: true };
-//   } catch (error) {
-//     console.error("Gagal delete session:", error);
-//     return { success: false };
-//   }
-// }
-
-// import fs from "fs/promises";
-// import path from "path";
-
-// const filePath = path.join(process.cwd(), "lib/db-local.json");
-
-// async function readDB() {
-//   const file = await fs.readFile(filePath, "utf-8");
-//   return JSON.parse(file);
-// }
-
-// async function writeDB(data: any) {
-//   await fs.writeFile(filePath, JSON.stringify(data, null, 2));
-// }
-
-// export async function getAllSessions() {
-//   const db = await readDB();
-//   return db.sessions || [];
-// }
-
-// export async function saveSession(data: any) {
-//   const db = await readDB();
-//   if (data._id) {
-//     const index = db.sessions.findIndex((s: any) => s._id === data._id);
-//     if (index !== -1) db.sessions[index] = { ...db.sessions[index], ...data };
-//   } else {
-//     const newSession = { ...data, _id: Date.now().toString() };
-//     db.sessions.push(newSession);
-//   }
-//   await writeDB(db);
-//   return { success: true };
-// }
-
-// export async function updateAbsenData(sessionId: string, absenData: any) {
-//   const db = await readDB();
-//   const index = db.sessions.findIndex((s: any) => s._id === sessionId);
-//   if (index !== -1) {
-//     db.sessions[index].attendance_data = absenData;
-//     db.sessions[index].status = "selesai";
-//     await writeDB(db);
-//     return { success: true };
-//   }
-//   return { success: false };
-// }
-
-// export async function deleteSession(_id: string) {
-//   const db = await readDB();
-//   db.sessions = db.sessions.filter((s: any) => s._id !== _id);
-//   await writeDB(db);
-//   return { success: true };
-// }

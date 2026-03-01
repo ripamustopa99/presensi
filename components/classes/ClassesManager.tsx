@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { deleteClassAction } from "@/lib/actions/class.actions";
 import { motion, AnimatePresence } from "framer-motion";
 import { Alert } from "@/components/ui/Alert";
-import { DeleteConfirmModal } from "@/components/ui/deletemodal"; // Sesuaikan path-nya
+import { DeleteConfirmModal } from "@/components/ui/DeleteConfirmModal"; // Sesuaikan path-nya
 
 interface Teacher {
   _id: string;
@@ -106,7 +106,7 @@ export default function ClassManager({
   };
 
   return (
-    <>
+    <main className="p-4 lg:p-10 max-w-7xl mx-auto w-full space-y-8">
       {/* NOTIFIKASI ALERT */}
       <AnimatePresence mode="wait">
         {alertConfig.show && (
@@ -166,6 +166,6 @@ export default function ClassManager({
         onConfirm={confirmDelete}
         itemName={itemToDelete ? `Kelas ${itemToDelete.class_name}` : ""}
       />
-    </>
+    </main>
   );
 }
